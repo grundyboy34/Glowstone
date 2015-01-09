@@ -24,7 +24,7 @@ public class ItemFlintAndSteel extends ItemTool {
                 fireTnt(target);
                 return true;
             case OBSIDIAN:
-                fireNetherPortal();
+                fireNetherPortal(target);
                 return true;
             // TODO: check for non-flammable blocks
             default:
@@ -32,8 +32,8 @@ public class ItemFlintAndSteel extends ItemTool {
         }
     }
 
-    private void fireNetherPortal() {
-        // TODO: check for nether portal and activate it
+    private void fireNetherPortal(GlowBlock portalBlock) {
+        
     }
 
     private void fireTnt(GlowBlock tnt) {

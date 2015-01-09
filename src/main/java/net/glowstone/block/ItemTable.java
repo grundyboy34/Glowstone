@@ -183,6 +183,7 @@ public final class ItemTable {
         reg(Material.WALL_BANNER, new BlockBanner());
         reg(Material.SPONGE, new BlockSponge());
         reg(Material.TNT, new BlockTNT());
+        reg(Material.PORTAL, new BlockPortal());
 
         reg(Material.FLINT_AND_STEEL, new ItemFlintAndSteel());
         reg(Material.SIGN, new ItemSign());

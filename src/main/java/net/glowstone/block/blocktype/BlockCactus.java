@@ -1,8 +1,12 @@
 package net.glowstone.block.blocktype;
 
+import net.glowstone.GlowServer;
 import net.glowstone.block.GlowBlock;
+import net.glowstone.entity.GlowLivingEntity;
+
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 public class BlockCactus extends BlockType {
 
@@ -50,5 +54,13 @@ public class BlockCactus extends BlockType {
                 return true;
         }
         return false;
+    }
+    
+    @Override
+    public void onTouch(GlowLivingEntity entity, GlowBlock block) {
+      	//GlowServer.logger.log(java.util.logging.Level.WARNING, "onTouch - " + block.getType().name());
+    	 if (entity.canTakeDamage(EntityDamageEvent.DamageCause.CONTACT)) {
+             entity.damage(1, EntityDamageEvent.DamageCause.CONTACT);
+         } 
     }
 }

@@ -8,7 +8,10 @@ import net.glowstone.block.GlowBlockState;
 import net.glowstone.block.ItemTable;
 import net.glowstone.block.entity.TileEntity;
 import net.glowstone.block.itemtype.ItemType;
+import net.glowstone.entity.GlowEntity;
+import net.glowstone.entity.GlowLivingEntity;
 import net.glowstone.entity.GlowPlayer;
+
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,10 +23,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.util.Vector;
 
+import io.netty.handler.logging.LogLevel;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
+import jline.internal.Log.Level;
 
 /**
  * Base class for specific types of blocks.
@@ -190,6 +197,17 @@ public class BlockType extends ItemType {
      */
     public void updatePhysics(GlowBlock me) {
         // do nothing
+    }
+    
+    
+    /**
+     * Called when a living entity touches a blockType
+     * @param entity The entity that's touching the block
+     * @param block The GlowBlock being touched
+     */
+    public void onTouch(GlowLivingEntity entity, GlowBlock block) {
+    	//GlowServer.logger.log(java.util.logging.Level.WARNING, "super.onTouch - " + block.getType().name());
+    	//do nothing by default
     }
 
     @Override

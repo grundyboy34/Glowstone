@@ -139,6 +139,10 @@ public abstract class GlowLivingEntity extends GlowEntity implements LivingEntit
 		if (noDamageTicks > 0) {
 			--noDamageTicks;
 		}
+		
+		if (getFireTicks() > 0 && canTakeDamage(EntityDamageEvent.DamageCause.FIRE_TICK)) {
+			damage(1, EntityDamageEvent.DamageCause.FIRE_TICK);
+		}
 
 		Material mat = getEyeLocation().getBlock().getType();
 		// breathing

@@ -634,6 +634,7 @@ public final class GlowPlayer extends GlowHumanEntity implements Player {
 	public void respawn() {
 		// restore health
 		setHealth(getMaxHealth());
+		setFireTicks(0);
 
 		// determine spawn destination
 		boolean spawnAtBed = false;

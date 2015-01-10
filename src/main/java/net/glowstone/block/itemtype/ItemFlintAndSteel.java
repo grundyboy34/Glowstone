@@ -5,8 +5,13 @@ import net.glowstone.block.GlowBlock;
 import net.glowstone.block.ItemTable;
 import net.glowstone.block.blocktype.BlockTNT;
 import net.glowstone.entity.GlowPlayer;
+import net.glowstone.entity.GlowTNTPrimed;
+
 import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -21,7 +26,7 @@ public class ItemFlintAndSteel extends ItemTool {
     public boolean onToolRightClick(GlowPlayer player, ItemStack holding, GlowBlock target, BlockFace face, Vector clickedLoc) {
         switch (target.getType()) {
             case TNT:
-                fireTnt(target);
+                fireTnt(player, target);
                 return true;
             case OBSIDIAN:
                return fireNetherPortal(player, holding, target, face, clickedLoc);
@@ -34,7 +39,7 @@ public class ItemFlintAndSteel extends ItemTool {
     private boolean fireNetherPortal(GlowPlayer player, ItemStack holding, GlowBlock target, BlockFace face, Vector clickedLoc) {
         GlowBlock faceBlock = target.getRelative(face);
 
-	    faceBlock.setType(Material.PORTAL);
+	    faceBlock.setTypeIdAndData(90, (byte) 1, true);
         return true;
       /*  if (faceBlock.getType() == Material.AIR) {
         	  ItemTable.instance().getBlock(Material.DIRT).rightClickBlock(player, target, BlockFace.UP, holding.clone(), clickedLoc);
@@ -43,8 +48,13 @@ public class ItemFlintAndSteel extends ItemTool {
         return false;*/
     }
 
-    private void fireTnt(GlowBlock tnt) {
-        BlockTNT.igniteBlock(tnt, false);
+    private void fireTnt(GlowPlayer player, GlowBlock tnt) {
+    	
+    	tnt.setType(Material.AIR);
+        World world = tnt.getWorld();
+        GlowTNTPrimed tntPrimed = (GlowTNTPrimed) world.spawnEntity(tnt.getLocation().add(0.5, 0, 0.5), EntityType.PRIMED_TNT);
+        tntPrimed.setIgnitedByExplosion(false);
+        world.playSound(tnt.getLocation(), Sound.FUSE, 1, 1);
     }
 
     private boolean setBlockOnFire(GlowPlayer player, GlowBlock clicked, BlockFace face, ItemStack holding, Vector clickedLoc) {

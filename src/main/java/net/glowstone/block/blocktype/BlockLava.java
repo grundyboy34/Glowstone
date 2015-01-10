@@ -36,7 +36,7 @@ public class BlockLava extends BlockLiquid {
 			if (livingEntity != null) {
 				if (livingEntity.canTakeDamage(EntityDamageEvent.DamageCause.CONTACT)) {
 					livingEntity.damage(4, EntityDamageEvent.DamageCause.CONTACT);
-					entity.setFireTicks(10);
+					entity.setFireTicks(50);
 					return;
 				}
 			}

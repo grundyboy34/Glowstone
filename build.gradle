@@ -9,7 +9,7 @@ apply plugin: 'eclipse' // Adds eclipse project tasks
 apply plugin: 'idea' // Adds idea project tasks
 apply plugin: 'com.github.johnrengelman.shadow' // Provides dependency shading
 apply plugin: 'net.glowstone.remapper' // Provides method remapping
-apply plugin: 'checkstyle' // Checks code style
+apply plugin: 'checkstyle'
 apply from: 'etc/publish.gradle'
 
 // Methods to determine detailed version string
@@ -111,6 +111,7 @@ dependencies {
 // Checkstyle plugin settings
 checkstyle {
     configFile = file('etc/checkstyle.xml')
+	ignoreFailures = true
 }
 
 // Shadow plugin settings

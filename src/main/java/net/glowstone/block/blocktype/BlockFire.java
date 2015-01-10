@@ -46,8 +46,9 @@ public class BlockFire extends BlockNeedsAttached {
 		if (entity instanceof GlowLivingEntity) {
 			GlowLivingEntity livingEntity = (GlowLivingEntity) entity;
 			if (livingEntity != null) {
-				if (livingEntity.canTakeDamage(EntityDamageEvent.DamageCause.CONTACT)) {
-					entity.setFireTicks(50);
+				if (livingEntity.canTakeDamage(EntityDamageEvent.DamageCause.FIRE)) {
+					livingEntity.damage(1, EntityDamageEvent.DamageCause.FIRE);
+					entity.setFireTicks(120);
 					return;
 				}
 			}

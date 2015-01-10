@@ -34,9 +34,9 @@ public class BlockLava extends BlockLiquid {
 		if (entity instanceof GlowLivingEntity) {
 			GlowLivingEntity livingEntity = (GlowLivingEntity) entity;
 			if (livingEntity != null) {
-				if (livingEntity.canTakeDamage(EntityDamageEvent.DamageCause.CONTACT)) {
-					livingEntity.damage(4, EntityDamageEvent.DamageCause.CONTACT);
-					entity.setFireTicks(50);
+				if (livingEntity.canTakeDamage(EntityDamageEvent.DamageCause.LAVA)) {
+					livingEntity.damage(4, EntityDamageEvent.DamageCause.LAVA);
+					entity.setFireTicks(120);
 					return;
 				}
 			}

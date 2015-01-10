@@ -366,7 +366,7 @@ public final class GlowWorld implements World {
     /**
      * Updates all the entities within this world.
      */
-    public void pulse() {
+   public void pulse() {
         List<GlowEntity> temp = new ArrayList<>(entities.getAll());
         List<GlowEntity> players = new LinkedList<>();
 

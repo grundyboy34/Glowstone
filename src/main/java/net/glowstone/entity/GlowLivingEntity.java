@@ -139,8 +139,9 @@ public abstract class GlowLivingEntity extends GlowEntity implements LivingEntit
 		if (noDamageTicks > 0) {
 			--noDamageTicks;
 		}
-		
-		if (getFireTicks() > 0 && canTakeDamage(EntityDamageEvent.DamageCause.FIRE_TICK)) {
+
+		//do damage for fireticks every 20 ticks. This seems to be the rate in which minecraft does it.
+		if (getFireTicks() > 0 && canTakeDamage(EntityDamageEvent.DamageCause.FIRE_TICK) && (getTicksLived() % 20) == 0) {
 			damage(1, EntityDamageEvent.DamageCause.FIRE_TICK);
 		}
 
@@ -160,16 +161,16 @@ public abstract class GlowLivingEntity extends GlowEntity implements LivingEntit
 
 		ArrayList<GlowBlock> touchedBlocks = getTouchedBlocks();
 		if (touchedBlocks != null && !touchedBlocks.isEmpty()) {
-				for (GlowBlock block : touchedBlocks) {
-					if (block == null) {
-						continue;
-					}
-					BlockType type = ItemTable.instance().getBlock(block.getType());
-					if (type != null) {
-						type.onTouch(this, block);
-					}
+			for (GlowBlock block : touchedBlocks) {
+				if (block == null) {
+					continue;
 				}
-		} 
+				BlockType type = ItemTable.instance().getBlock(block.getType());
+				if (type != null) {
+					type.onTouch(this, block);
+				}
+			}
+		}
 
 		// potion effects
 		List<PotionEffect> effects = new ArrayList<>(potionEffects.values());

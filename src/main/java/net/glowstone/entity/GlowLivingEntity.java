@@ -309,7 +309,7 @@ public abstract class GlowLivingEntity extends GlowEntity implements LivingEntit
 	 * @return the hurt sound if available
 	 */
 	protected Sound getHurtSound() {
-		return Sound.HURT_FLESH;
+		return null;
 	}
 
 	/**

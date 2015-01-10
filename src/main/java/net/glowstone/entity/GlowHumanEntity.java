@@ -1,6 +1,7 @@
 package net.glowstone.entity;
 
 import com.flowpowered.networking.Message;
+
 import net.glowstone.entity.meta.profile.PlayerProfile;
 import net.glowstone.entity.objects.GlowItem;
 import net.glowstone.inventory.*;
@@ -8,10 +9,12 @@ import net.glowstone.net.message.play.entity.EntityEquipmentMessage;
 import net.glowstone.net.message.play.entity.EntityHeadRotationMessage;
 import net.glowstone.net.message.play.entity.SpawnPlayerMessage;
 import net.glowstone.util.Position;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -270,6 +273,11 @@ public abstract class GlowHumanEntity extends GlowLivingEntity implements HumanE
     public void setOp(boolean value) {
         isOp = value;
         recalculatePermissions();
+    }
+    
+    @Override
+    protected Sound getHurtSound() {
+    	return Sound.HURT_FLESH;
     }
 
     ////////////////////////////////////////////////////////////////////////////

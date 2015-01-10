@@ -24,16 +24,23 @@ public class ItemFlintAndSteel extends ItemTool {
                 fireTnt(target);
                 return true;
             case OBSIDIAN:
-                fireNetherPortal(target);
-                return true;
+               return fireNetherPortal(player, holding, target, face, clickedLoc);
             // TODO: check for non-flammable blocks
             default:
                 return setBlockOnFire(player, target, face, holding, clickedLoc);
         }
     }
 
-    private void fireNetherPortal(GlowBlock portalBlock) {
-        
+    private boolean fireNetherPortal(GlowPlayer player, ItemStack holding, GlowBlock target, BlockFace face, Vector clickedLoc) {
+        GlowBlock faceBlock = target.getRelative(face);
+
+	    faceBlock.setType(Material.PORTAL);
+        return true;
+      /*  if (faceBlock.getType() == Material.AIR) {
+        	  ItemTable.instance().getBlock(Material.DIRT).rightClickBlock(player, target, BlockFace.UP, holding.clone(), clickedLoc);
+        	  return true;
+        }
+        return false;*/
     }
 
     private void fireTnt(GlowBlock tnt) {

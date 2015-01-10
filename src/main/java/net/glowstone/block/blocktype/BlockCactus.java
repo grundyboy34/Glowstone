@@ -1,8 +1,11 @@
 package net.glowstone.block.blocktype;
 
+import net.glowstone.EventFactory;
 import net.glowstone.GlowServer;
 import net.glowstone.block.GlowBlock;
+import net.glowstone.entity.GlowEntity;
 import net.glowstone.entity.GlowLivingEntity;
+import net.glowstone.entity.objects.GlowItem;
 
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -10,57 +13,74 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 public class BlockCactus extends BlockType {
 
-    private static final BlockFace[] NEAR_BLOCKS = new BlockFace[]{BlockFace.NORTH, BlockFace.SOUTH, BlockFace.WEST, BlockFace.EAST};
+	private static final BlockFace[] NEAR_BLOCKS = new BlockFace[] { BlockFace.NORTH, BlockFace.SOUTH, BlockFace.WEST,
+			BlockFace.EAST };
 
-    @Override
-    public boolean canPlaceAt(GlowBlock block, BlockFace against) {
-        Material below = block.getRelative(BlockFace.DOWN).getType();
-        return (below == Material.CACTUS || below == Material.SAND) && !hasNearBlocks(block);
-    }
+	@Override
+	public boolean canPlaceAt(GlowBlock block, BlockFace against) {
+		Material below = block.getRelative(BlockFace.DOWN).getType();
+		return (below == Material.CACTUS || below == Material.SAND) && !hasNearBlocks(block);
+	}
 
-    @Override
-    public void onNearBlockChanged(GlowBlock block, BlockFace face, GlowBlock changedBlock, Material oldType, byte oldData, Material newType, byte newData) {
-        updatePhysics(block);
-    }
+	@Override
+	public void onNearBlockChanged(GlowBlock block, BlockFace face, GlowBlock changedBlock, Material oldType,
+			byte oldData, Material newType, byte newData) {
+		updatePhysics(block);
+	}
 
-    @Override
-    public void updatePhysics(GlowBlock me) {
-        if (!canPlaceAt(me, BlockFace.DOWN)) {
-            me.breakNaturally();
-        }
-    }
+	@Override
+	public void updatePhysics(GlowBlock me) {
+		if (!canPlaceAt(me, BlockFace.DOWN)) {
+			me.breakNaturally();
+		}
+	}
 
-    private boolean hasNearBlocks(GlowBlock block) {
-        for (BlockFace face : NEAR_BLOCKS) {
-            if (!canPlaceNear(block.getRelative(face).getType())) {
-                return true;
-            }
-        }
-        return false;
-    }
+	private boolean hasNearBlocks(GlowBlock block) {
+		for (BlockFace face : NEAR_BLOCKS) {
+			if (!canPlaceNear(block.getRelative(face).getType())) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    private boolean canPlaceNear(Material type) {
-        // TODO: return true for non-buildable blocks
-        switch (type) {
-            case AIR:
-            case WATER:
-            case STATIONARY_WATER:
-            case LAVA:
-            case STATIONARY_LAVA:
-            case PORTAL:
-            case ENDER_PORTAL:
-            case RED_ROSE:
-            case YELLOW_FLOWER:
-                return true;
-        }
-        return false;
-    }
-    
-    @Override
-    public void onTouch(GlowLivingEntity entity, GlowBlock block) {
-      	//GlowServer.logger.log(java.util.logging.Level.WARNING, "onTouch - " + block.getType().name());
-    	 if (entity.canTakeDamage(EntityDamageEvent.DamageCause.CONTACT)) {
-             entity.damage(1, EntityDamageEvent.DamageCause.CONTACT);
-         } 
-    }
+	private boolean canPlaceNear(Material type) {
+		// TODO: return true for non-buildable blocks
+		switch (type) {
+		case AIR:
+		case WATER:
+		case STATIONARY_WATER:
+		case LAVA:
+		case STATIONARY_LAVA:
+		case PORTAL:
+		case ENDER_PORTAL:
+		case RED_ROSE:
+		case YELLOW_FLOWER:
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void onTouch(GlowEntity entity, GlowBlock block) {
+		// GlowServer.logger.log(java.util.logging.Level.WARNING, "onTouch - " +
+		// block.getType().name());
+		if (entity instanceof GlowItem) {
+			GlowItem item = (GlowItem) entity;
+			if (item != null) {
+				item.remove();
+				return;
+			}
+		}
+		if (entity instanceof GlowLivingEntity) {
+			GlowLivingEntity livingEntity = (GlowLivingEntity) entity;
+			if (livingEntity != null) {
+				if (livingEntity.canTakeDamage(EntityDamageEvent.DamageCause.CONTACT)) {
+					livingEntity.damage(1, EntityDamageEvent.DamageCause.CONTACT);
+					return;
+				}
+			}
+		}
+
+	}
 }

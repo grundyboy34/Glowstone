@@ -3,7 +3,9 @@ package net.glowstone;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import net.glowstone.command.ColorCommand;
+import net.glowstone.command.SetBlockCommand;
 import net.glowstone.command.TellrawCommand;
+import net.glowstone.command.TestSoundCommand;
 import net.glowstone.constants.GlowEnchantment;
 import net.glowstone.constants.GlowPotionEffect;
 import net.glowstone.entity.EntityIdManager;
@@ -22,6 +24,7 @@ import net.glowstone.scheduler.WorldScheduler;
 import net.glowstone.util.*;
 import net.glowstone.util.bans.GlowBanList;
 import net.glowstone.util.bans.UuidListFile;
+
 import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.command.*;
@@ -645,6 +648,8 @@ public final class GlowServer implements Server {
         commandMap.clearCommands();
         commandMap.register("glowstone", new ColorCommand("colors"));
         commandMap.register("glowstone", new TellrawCommand());
+        commandMap.register("glowstone", new SetBlockCommand());
+        commandMap.register("glowstone", new TestSoundCommand("testsound"));
 
         File folder = new File(config.getString(ServerConfig.Key.PLUGIN_FOLDER));
         if (!folder.isDirectory() && !folder.mkdirs()) {

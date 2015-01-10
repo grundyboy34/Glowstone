@@ -21,6 +21,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityPortalEnterEvent;
@@ -202,7 +203,7 @@ public abstract class GlowEntity implements Entity {
 	}
 
 	// //////////////////////////////////////////////////////////////////////////
-    // Location stuff
+	// Location stuff
 
 	@Override
 	public Location getLocation() {
@@ -350,26 +351,7 @@ public abstract class GlowEntity implements Entity {
 		pulsePhysics();
 
 		if (hasMoved()) {
-			Block currentBlock = location.getBlock();
-			if (currentBlock.getType() == Material.ENDER_PORTAL) {
-				EventFactory.callEvent(new EntityPortalEnterEvent(this, currentBlock.getLocation()));
-				if (server.getAllowEnd()) {
-					Location previousLocation = location.clone();
-					boolean success;
-					if (getWorld().getEnvironment() == World.Environment.THE_END) {
-						success = teleportToSpawn();
-					} else {
-						success = teleportToEnd();
-					}
-					if (success) {
-						EntityPortalExitEvent e = EventFactory.callEvent(new EntityPortalExitEvent(this,
-								previousLocation, location.clone(), velocity.clone(), new Vector()));
-						if (!e.getAfter().equals(velocity)) {
-							setVelocity(e.getAfter());
-						}
-					}
-				}
-			}
+
 		}
 	}
 
@@ -500,56 +482,6 @@ public abstract class GlowEntity implements Entity {
 	}
 
 	/**
-	 * Teleport this entity to the spawn point of the main world. This is used
-	 * to teleport out of the End.
-	 * 
-	 * @return {@code true} if the teleport was successful.
-	 */
-	protected boolean teleportToSpawn() {
-		Location target = server.getWorlds().get(0).getSpawnLocation();
-
-		EntityPortalEvent event = EventFactory.callEvent(new EntityPortalEvent(this, location.clone(), target, null));
-		if (event.isCancelled()) {
-			return false;
-		}
-		target = event.getTo();
-
-		teleport(target);
-		return true;
-	}
-
-	/**
-	 * Teleport this entity to the End. If no End world is loaded this does
-	 * nothing.
-	 * 
-	 * @return {@code true} if the teleport was successful.
-	 */
-	protected boolean teleportToEnd() {
-		if (!server.getAllowEnd()) {
-			return false;
-		}
-		Location target = null;
-		for (World world : server.getWorlds()) {
-			if (world.getEnvironment() == World.Environment.THE_END) {
-				target = world.getSpawnLocation();
-				break;
-			}
-		}
-		if (target == null) {
-			return false;
-		}
-
-		EntityPortalEvent event = EventFactory.callEvent(new EntityPortalEvent(this, location.clone(), target, null));
-		if (event.isCancelled()) {
-			return false;
-		}
-		target = event.getTo();
-
-		teleport(target);
-		return true;
-	}
-
-	/**
 	 * Calculate all blocks the entity is intersecting if the entity has a
 	 * defined bounding box.
 	 * 
@@ -563,7 +495,6 @@ public abstract class GlowEntity implements Entity {
 					BlockFace.DOWN, BlockFace.SELF, BlockFace.NORTH_EAST, BlockFace.NORTH_WEST, BlockFace.SOUTH_EAST,
 					BlockFace.SOUTH_WEST }) {
 				intersects.add(world.getBlockAt(getLocation().getBlock().getRelative(face).getLocation()));
-				
 
 			}
 		} else {

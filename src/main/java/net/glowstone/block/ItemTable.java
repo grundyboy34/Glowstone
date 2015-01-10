@@ -117,6 +117,7 @@ public final class ItemTable {
         reg(Material.FIRE, new BlockFire());
         reg(Material.MONSTER_EGGS, new BlockDropless());
         reg(Material.ENDER_PORTAL_FRAME, new BlockEnderPortalFrame());
+        reg(Material.ENDER_PORTAL, new BlockEnderPortal());
         reg(Material.FENCE_GATE, new BlockFenceGate());
         reg(Material.ACACIA_FENCE_GATE, new BlockFenceGate());
         reg(Material.BIRCH_FENCE_GATE, new BlockFenceGate());

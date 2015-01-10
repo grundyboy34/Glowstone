@@ -205,7 +205,7 @@ public class BlockType extends ItemType {
      * @param entity The entity that's touching the block
      * @param block The GlowBlock being touched
      */
-    public void onTouch(GlowLivingEntity entity, GlowBlock block) {
+    public void onTouch(GlowEntity entity, GlowBlock block) {
     	//GlowServer.logger.log(java.util.logging.Level.WARNING, "super.onTouch - " + block.getType().name());
     	//do nothing by default
     }

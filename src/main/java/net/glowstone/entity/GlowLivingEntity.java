@@ -163,8 +163,6 @@ public abstract class GlowLivingEntity extends GlowEntity implements LivingEntit
 					BlockType type = ItemTable.instance().getBlock(block.getType());
 					if (type != null) {
 						type.onTouch(this, block);
-					} else {
-					  	GlowServer.logger.log(Level.WARNING, "blockType is null!");
 					}
 				}
 		} 
@@ -307,7 +305,7 @@ public abstract class GlowLivingEntity extends GlowEntity implements LivingEntit
 	 * @return the hurt sound if available
 	 */
 	protected Sound getHurtSound() {
-		return null;
+		return Sound.HURT_FLESH;
 	}
 
 	/**
